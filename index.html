@@ -1,11 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="theme-color" content="#071412">
+    <title>NOCTILUCA | Ritual tropical</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #071412;
+            --leaf: #123b2b;
+            --lime: #d8ff5f;
+            --coral: #ff695a;
+            --mist: #f2efd9;
+            --line: rgba(242, 239, 217, .2);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--mist);
+            background: var(--ink);
+            font-family: 'DM Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .09;
+            z-index: 10;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        .shell { max-width: 1440px; margin: auto; padding: 0 5vw; }
+        header {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 0;
+            font-size: 11px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+        .brand { color: var(--lime); font-weight: 500; }
+        nav { display: flex; gap: 28px; }
+        nav a { color: var(--mist); text-decoration: none; opacity: .7; transition: color .3s, opacity .3s; }
+        nav a:hover { color: var(--lime); opacity: 1; }
+
+        .hero {
+            min-height: 740px;
+            position: relative;
+            display: grid;
+            align-items: center;
+            isolation: isolate;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: min(55vw, 720px);
+            aspect-ratio: 1;
+            right: -10%;
+            top: 8%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f9ffa2 0 2%, #d8ff5f 3% 9%, #8ba92f 18%, transparent 61%);
+            filter: blur(2px);
+            opacity: .8;
+            z-index: -1;
+            animation: breathe 8s ease-in-out infinite;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: radial-gradient(ellipse at 78% 42%, rgba(177, 218, 50, .2), transparent 29%), linear-gradient(125deg, var(--ink) 35%, #164b32 100%);
+        }
+        .hero-copy { max-width: 850px; padding-bottom: 90px; }
+        .eyebrow { color: var(--coral); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+        h1 {
+            margin: 22px 0;
+            max-width: 900px;
+            color: var(--mist);
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(70px, 12.5vw, 190px);
+            line-height: .82;
+            font-weight: 700;
+            letter-spacing: -.09em;
+            text-transform: uppercase;
+        }
+        h1 em { color: var(--lime); font-style: normal; }
+        .intro { max-width: 430px; margin: 0; color: rgba(242,239,217,.7); font-size: 13px; line-height: 1.8; }
+        .hero-meta { display: flex; align-items: center; gap: 22px; margin-top: 36px; }
+        .enter {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            color: var(--ink);
+            background: var(--lime);
+            border: 0;
+            font: inherit;
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform .3s, background .3s, box-shadow .3s;
+        }
+        .enter:hover { transform: translateY(-4px); background: #f3ff9a; box-shadow: 8px 8px 0 var(--coral); }
+        .enter span { font-size: 22px; line-height: 0; }
+        .coordinates { color: rgba(242,239,217,.45); font-size: 10px; }
+
+        .leaf { position: absolute; pointer-events: none; opacity: .6; transform-origin: bottom center; }
+        .leaf-one { right: 13%; top: 18%; width: 420px; height: 420px; border: 1px solid rgba(216,255,95,.55); border-radius: 50%; transform: rotate(22deg); }
+        .leaf-one::before, .leaf-one::after { content: ''; position: absolute; inset: 12%; border: 1px solid rgba(216,255,95,.25); border-radius: 50%; }
+        .leaf-one::after { inset: 25%; border-color: rgba(255,105,90,.38); }
+        .leaf-two { right: 23%; bottom: 12%; width: 1px; height: 140px; background: var(--coral); opacity: .9; transform: rotate(38deg); }
+        .leaf-three { left: 4%; bottom: 6%; width: 90px; height: 1px; background: var(--lime); opacity: .9; transform: rotate(-12deg); }
+
+        .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--lime); white-space: nowrap; }
+        .marquee-track { display: inline-block; padding: 17px 0; animation: slide 22s linear infinite; font-family: 'Syne', sans-serif; font-size: clamp(25px, 3vw, 42px); font-weight: 700; letter-spacing: -.05em; }
+        .marquee-track span { margin: 0 24px; color: var(--coral); font-family: 'DM Mono', monospace; font-size: 14px; font-style: normal; }
+
+        .manifesto { display: grid; grid-template-columns: 1.2fr .8fr; gap: 8vw; padding: 120px 0 150px; }
+        .manifesto h2 { margin: 0; color: var(--mist); font-family: 'Syne', sans-serif; font-size: clamp(44px, 6vw, 82px); font-weight: 600; line-height: .98; letter-spacing: -.08em; }
+        .manifesto h2 strong { color: var(--coral); font-weight: 600; }
+        .manifesto aside { align-self: end; padding-bottom: 8px; color: rgba(242,239,217,.65); font-size: 12px; line-height: 1.9; }
+        .tag { display: inline-block; margin-bottom: 30px; padding: 7px 9px; border: 1px solid var(--coral); color: var(--coral); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+        footer { display: flex; justify-content: space-between; padding: 25px 0; border-top: 1px solid var(--line); color: rgba(242,239,217,.45); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+        #motion-toggle { background: none; border: 0; color: inherit; font: inherit; font-size: 10px; cursor: pointer; text-transform: uppercase; }
+        #motion-toggle:hover { color: var(--lime); }
+
+        @keyframes breathe { 0%, 100% { transform: scale(.95) translate(0, 0); } 50% { transform: scale(1.05) translate(-2%, 2%); } }
+        @keyframes slide { to { transform: translateX(-50%); } }
+        @media (max-width: 680px) {
+            .shell { padding: 0 22px; }
+            header { padding: 22px 0; }
+            nav { gap: 13px; }
+            nav a:nth-child(2) { display: none; }
+            .hero { min-height: 680px; }
+            .hero-copy { padding-bottom: 50px; }
+            .hero::before { width: 100vw; right: -35%; top: 24%; }
+            .leaf-one { right: 0; top: 30%; }
+            .manifesto { grid-template-columns: 1fr; gap: 45px; padding: 90px 0 110px; }
+            footer { gap: 20px; flex-wrap: wrap; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+        }
+        .still *, .still *::before, .still *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    </style>
 </head>
 <body>
-    
+    <div class="shell">
+        <header>
+            <div class="brand">Noctiluca / 001</div>
+            <nav aria-label="Navegación principal">
+                <a href="#ritual">El ritual</a>
+                <a href="#frecuencia">Frecuencia</a>
+                <a href="#contacto">Contacto ↗</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="leaf leaf-one"></div><div class="leaf leaf-two"></div><div class="leaf leaf-three"></div>
+                <div class="hero-copy">
+                    <div class="eyebrow">Experiencia sensorial / 06:42 N · 73:58 O</div>
+                    <h1 id="hero-title">Entra en<br><em>lo extraño.</em></h1>
+                    <p class="intro">Un refugio digital para mentes inquietas. Ritmos cálidos, ideas salvajes y una dosis exacta de luz bioluminiscente.</p>
+                    <div class="hero-meta">
+                        <a class="enter" href="#ritual">Explorar el ritual <span>↗</span></a>
+                        <span class="coordinates">TEMP. 28° / HUM. 84%</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="marquee" id="frecuencia" aria-label="Mantra">
+        <div class="marquee-track">SENSACIÓN ANTES QUE EXPLICACIÓN <span>✳</span> SENSACIÓN ANTES QUE EXPLICACIÓN <span>✳</span> SENSACIÓN ANTES QUE EXPLICACIÓN <span>✳</span></div>
+    </div>
+
+    <div class="shell">
+        <section class="manifesto" id="ritual">
+            <div><span class="tag">Manifiesto 01</span><h2>La noche no es<br>ausencia.<br>Es <strong>otra forma</strong><br>de ver.</h2></div>
+            <aside>NOCTILUCA es una colección de pequeños rituales para salir del piloto automático. Baja el ruido. Sube la curiosidad. Quédate un rato.</aside>
+        </section>
+        <footer id="contacto"><span>© Noctiluca Studio</span><button id="motion-toggle" type="button">◉ Pausar movimiento</button><span>Hecho para la noche</span></footer>
+    </div>
+    <script>
+        const toggle = document.querySelector('#motion-toggle');
+        toggle.addEventListener('click', () => {
+            document.body.classList.toggle('still');
+            const paused = document.body.classList.contains('still');
+            toggle.textContent = paused ? '◌ Activar movimiento' : '◉ Pausar movimiento';
+        });
+    </script>
 </body>
 </html>
